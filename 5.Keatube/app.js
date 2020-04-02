@@ -40,7 +40,7 @@ app.get("/upload", (req, res) =>{
 });
 
 
-const server = app.listen(80, (error) =>{
+const server = app.listen(3000, (error) =>{
     if(error){
         console.log(error);
     }
