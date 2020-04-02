@@ -20,15 +20,7 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage: storage });
 
-const videos = [{
-    title: "Ocean Waves",
-    description: "Watch the waves and enjoy",
-    fileName: "test",
-    thumbnail: "",
-    category: "Nature",
-    tags: ["waves", "ocean", "coast"],
-    uploadDate: new Date(2020, 3, 26, 08, 43)
-}];
+const videos = [];
 
 const videosPerPage = 10;
 
