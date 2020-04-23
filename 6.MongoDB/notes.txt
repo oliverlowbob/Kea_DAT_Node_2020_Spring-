@@ -1,0 +1,19 @@
+MySQL vs Others
+
+SQL is relational database
+
+MongoDB
+
+Do use:
+    Not sure about the schema yet
+        Leads to rapid prototyping
+
+Don't use:
+    Data that is consistens
+
+    Data that is crucial and you have to be careful
+
+    If you have a set schema
+
+More info:
+    

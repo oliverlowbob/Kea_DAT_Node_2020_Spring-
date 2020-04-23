@@ -7,10 +7,13 @@ function validateForm() {
     const category = document.forms.videoupload.category.value;
     
     if (title.length < 8 || title.length > 64) {
+
+        alert("Error")
         return false;
     }
 
     if (description.length > 2048) {
+
         return false;
     }
 

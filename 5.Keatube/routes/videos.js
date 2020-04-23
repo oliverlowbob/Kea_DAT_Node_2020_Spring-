@@ -24,6 +24,9 @@ const videos = [];
 
 const videosPerPage = 10;
 
+const Swal = require('sweetalert2')
+
+
 router.get("/videos", (req, res) => {
     const page = Number(req.query.page) ? Number(req.query.page) : 1;
     const start = (page-1) * videosPerPage;
@@ -55,11 +58,24 @@ router.post("/videos", upload.single('video'), (req, res) => {
     };
 
     if (video.title.length < 8 || video.title.length > 64) {
-        errors.push("Title can't be between 8 and 64.");
+       Swal.fire({
+            title: 'Error!',
+            text: 'Title length too short or too long (minimum 8, maximum 64',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          });
+          //errors.push("Title error");
+
     }
 
     if (video.description.length > 2048) {
-        errors.push("The description can't be longer than 2048 chars.");
+        Swal.fire({
+            title: 'Error!',
+            text: 'Description is too long',
+            icon: 'error',
+            confirmButtonText: 'Ok'
+          })
+        //errors.push("The description can't be longer than 2048 chars.");
     }
 
     if (errors.length > 0) {
