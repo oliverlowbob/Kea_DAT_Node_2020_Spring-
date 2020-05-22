@@ -1,0 +1,43 @@
+<%- include('navbar'); -%>
+
+<div><%=username%> is now logged in</div>
+
+
+    <h1>All users</h1>
+    <a href="/logout" id="signUpBtn">Sign out</a>
+
+        <table id="table" style="width:100%">
+            <tr>
+              <th>Username</th>
+              <th>Email</th>
+            </tr>
+          </table>
+
+      <script>
+        const url = "/users";
+        fetch(url).then(function(response) {
+        return response.json();
+        }).then(function(data) {
+
+        var table = document.getElementById("table");
+
+        for (var i = 0; i<data.length; i++) {
+          user = data[i]
+          
+          var row = table.insertRow(i+1);
+          var column1 = row.insertCell(0);
+          var column2 = row.insertCell(1);
+          var column3 = row.insertCell(2);
+          column1.innerHTML = user.username;
+          column2.innerHTML = user.email;
+          column3.innerHTML +="<a href='"+"/startChat/"+"'>Start chatting</a>" ;
+          
+    }
+    console.log(data);
+  });
+
+
+
+      </script>
+
+<%- include('footer'); -%>
