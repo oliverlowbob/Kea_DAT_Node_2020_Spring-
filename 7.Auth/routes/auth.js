@@ -25,10 +25,12 @@ route.post("/login", async (req, res, next) => {
         try {
             if(await User.query().select("username").where({ 'username': username })){
                 hashedPW = await User.query().select("password").where({ 'username': username }).limit(1)
+                userId = await User.query().select("id").where({ 'username': username }).limit(1)
                 bcrypt.compare(password, hashedPW[0].password).then((result) => {
                     if(result == true){
                         req.session.isLoggedIn = true
                         req.session.userName = username
+                        req.session.userId = userId[0].id
                         res.redirect(req.session.myValue)
                     }
                     else{

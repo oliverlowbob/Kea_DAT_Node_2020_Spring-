@@ -1,6 +1,6 @@
 <%- include('navbar'); -%>
 
-<div><%=username%> is now logged in</div>
+<div><%=username%> is now logged in with id <%=userId%></div>
 
 
     <h1>All users</h1>
@@ -30,7 +30,7 @@
           var column3 = row.insertCell(2);
           column1.innerHTML = user.username;
           column2.innerHTML = user.email;
-          column3.innerHTML +="<a href='"+"/startChat/"+"'>Start chatting</a>" ;
+          column3.innerHTML +="<a href='"+"/sendmessage/"+user.id+"'>Start chatting</a>" ;
           
     }
     console.log(data);

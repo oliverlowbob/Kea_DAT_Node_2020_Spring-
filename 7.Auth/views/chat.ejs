@@ -1,0 +1,75 @@
+<%- include('navbar'); -%>
+<a href="/logout" id="signUpBtn">Sign out</a>
+
+
+<h2>Chatsite</h2>
+<b id="h3"></b>
+<div>You are logged in as <%=username%></div>
+
+
+<input id="message" placeholder="Message" />
+<button id="btn-submit" onclick="onMsgSubmitted()">Send</button>
+<div id="messages"></div>
+<div class="typing"></div>
+
+
+<script>
+    //laver socket og connecter 
+    const socket = io.connect("localhost:3000");
+
+    //sender brugerinfo når der connectes
+    socket.on('connect', function (data) {
+        //userid kommer via vores session, den sættes når der logges ind i auth route
+        socket.emit('storeClientInfo', { customId:"<%=userId%>" });
+    });
+
+    //function der sender beskeden når der trykkes send på knappen ovenover
+    function onMsgSubmitted() {
+            //tager data fra message-feltet og sætter feltet til ingenting
+            const message = $('#message').val();
+            $('#message').val("");
+            //sender beskeden, samt info om hvem der sender, og hvor den skal hen. username og fromid sættes get-requesten i app.js
+            socket.emit("send-message", { message: message, from: "<%=username%>", to: "<%=fromId%>" });
+        }
+        //når der modtages en besked, vises den i en div
+        socket.on("recieve-message", data => {
+            $('#messages').prepend(`<div>${data.from}: ${data.message}</div>`);
+        });
+
+
+var timeout;
+
+function timeoutFunction() {
+    typing = false;
+    socket.emit("typing", false);
+}
+
+$('.typing-message').keyup(function() {
+    console.log('happening');
+    typing = true;
+    socket.emit('typing', 'typing...');
+    clearTimeout(timeout);
+    timeout = setTimeout(timeoutFunction, 2000);
+});
+
+socket.on('typing', function(data) {
+    if (data) {
+        $('.typing').append(data);
+    } else {
+        $('.typing').append("");
+    }
+});
+
+
+
+    //henter info om brugeren man chatter med via fromId, der er sat i get-requesten med req param
+        const url = "/user/<%=fromId%>";
+        fetch(url).then(function(response) {
+        return response.json();
+        }).then(function(data) {
+            //sætter bold feltet til det første element vi får tilbage, da vi får svar i array
+            document.getElementById("h3").innerHTML = "Chatting with " + data[0].username
+        })
+</script>
+
+<%- include('footer'); -%>
